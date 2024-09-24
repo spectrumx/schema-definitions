@@ -18,6 +18,17 @@ Let's aim to keep the following structure for new schema definitions:
              └─  tests         # (optional) test cases and validation code examples
 ```
 
+## Quick Links
+
++ Definitions
+    + SpectrumX Data System (SDS)
+        + [Abstractions](./definitions/sds/abstractions)
+            + [Dataset](./definitions/sds/abstractions/dataset)
+            + [Experiment](./definitions/sds/abstractions/experiment)
+        + Metadata Formats
+            + [Digital-RF](./definitions/sds/metadata-formats/digital-rf)
+            + [SigMF](./definitions/sds/metadata-formats/sigmf)
+
 ## Resources
 
 + [How to auto-generate a JSON schema from a Pydantic model](https://docs.pydantic.dev/2.9/why/#json-schema) (expand the example to see the code).
