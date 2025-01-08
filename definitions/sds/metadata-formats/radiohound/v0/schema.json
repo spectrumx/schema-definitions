@@ -1,0 +1,158 @@
+{
+    "$defs": {
+        "DataType": {
+            "description": "Data types supported by RadioHound.",
+            "enum": [
+                "periodogram"
+            ],
+            "title": "DataType",
+            "type": "string"
+        },
+        "_RHMetadataV0": {
+            "additionalProperties": false,
+            "description": "Metadata for a RadioHound capture.",
+            "properties": {
+                "data_type": {
+                    "$ref": "#/$defs/DataType",
+                    "desc": "The category of this capture"
+                },
+                "fmax": {
+                    "desc": "The maximum frequency in the sample",
+                    "exclusiveMaximum": 9223372036854775807,
+                    "exclusiveMinimum": 0,
+                    "title": "Fmax",
+                    "type": "integer"
+                },
+                "fmin": {
+                    "desc": "The minimum frequency in the sample",
+                    "exclusiveMaximum": 9223372036854775807,
+                    "exclusiveMinimum": 0,
+                    "title": "Fmin",
+                    "type": "integer"
+                },
+                "gps_lock": {
+                    "description": "Whether device coordinates were set and locked (e.g. when satellites are not reachable)",
+                    "title": "Gps Lock",
+                    "type": "boolean"
+                },
+                "nfft": {
+                    "description": "Number of FFT bins, recommended to be a power of 2",
+                    "exclusiveMinimum": 0,
+                    "title": "Nfft",
+                    "type": "integer"
+                },
+                "scan_time": {
+                    "desc": "The time taken to scan this sample, in seconds",
+                    "exclusiveMinimum": 0.0,
+                    "title": "Scan Time",
+                    "type": "number"
+                },
+                "xcount": {
+                    "desc": "The number of points in the periodogram",
+                    "exclusiveMaximum": 9223372036854775807,
+                    "exclusiveMinimum": 0,
+                    "title": "Xcount",
+                    "type": "integer"
+                },
+                "xstart": {
+                    "desc": "The start frequency of the periodogram",
+                    "exclusiveMaximum": 9223372036854775807,
+                    "exclusiveMinimum": 0,
+                    "title": "Xstart",
+                    "type": "integer"
+                },
+                "xstop": {
+                    "desc": "The stop frequency of the periodogram",
+                    "exclusiveMaximum": 9223372036854775807,
+                    "exclusiveMinimum": 0,
+                    "title": "Xstop",
+                    "type": "integer"
+                }
+            },
+            "required": [
+                "data_type",
+                "fmax",
+                "fmin",
+                "gps_lock",
+                "nfft",
+                "scan_time",
+                "xcount",
+                "xstart",
+                "xstop"
+            ],
+            "title": "_RHMetadataV0",
+            "type": "object"
+        }
+    },
+    "additionalProperties": false,
+    "description": "Describes a RadioHound capture.",
+    "properties": {
+        "data": {
+            "title": "Data",
+            "type": "string"
+        },
+        "gain": {
+            "title": "Gain",
+            "type": "number"
+        },
+        "mac_address": {
+            "description": "MAC address of the RadioHound device",
+            "maxLength": 12,
+            "minLength": 12,
+            "title": "Mac Address",
+            "type": "string"
+        },
+        "metadata": {
+            "$ref": "#/$defs/_RHMetadataV0",
+            "description": "Metadata for this capture"
+        },
+        "sample_rate": {
+            "description": "Sample rate of the capture in Hz",
+            "exclusiveMaximum": 9223372036854775807,
+            "exclusiveMinimum": 0,
+            "title": "Sample Rate",
+            "type": "integer"
+        },
+        "short_name": {
+            "description": "Short name for the capture",
+            "maxLength": 255,
+            "title": "Short Name",
+            "type": "string"
+        },
+        "timestamp": {
+            "description": "Timestamp of the capture start as ISO 8601 with timezone information.",
+            "format": "date-time",
+            "title": "Timestamp",
+            "type": "string"
+        },
+        "type": {
+            "description": "Numpy data type",
+            "title": "Type",
+            "type": "string"
+        },
+        "version": {
+            "default": "v0",
+            "description": "Version of the RadioHound data format",
+            "maxLength": 255,
+            "title": "Version",
+            "type": "string"
+        },
+        "custom_fields": {
+            "description": "Custom fields that are not part of the standard schema",
+            "title": "Custom Fields",
+            "type": "object"
+        }
+    },
+    "required": [
+        "data",
+        "gain",
+        "mac_address",
+        "metadata",
+        "sample_rate",
+        "short_name",
+        "timestamp",
+        "type"
+    ],
+    "title": "_RadioHoundDataV0",
+    "type": "object"
+}

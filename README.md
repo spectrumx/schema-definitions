@@ -27,6 +27,7 @@ Let's aim to keep the following structure for new schema definitions:
             + [Experiment](./definitions/sds/abstractions/experiment)
         + Metadata Formats
             + [Digital-RF](./definitions/sds/metadata-formats/digital-rf)
+            + [RadioHound](./definitions/sds/metadata-formats/radiohound)
             + [SigMF](./definitions/sds/metadata-formats/sigmf)
 
 ## Resources
