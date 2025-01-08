@@ -34,6 +34,7 @@ from pydantic import (
 )
 from rich import print  # pylint: disable=redefined-builtin
 
+DEFAULT_EXTENSION = ".rh.json"
 FORMAT_VERSION = "v0"
 MAX_INT_SIZE = int(2**63 - 1)
 
@@ -257,7 +258,7 @@ class _RadioHoundDataV0(BaseModel):
             file_path_real = file_path
         # if file_path_real has no extension, use .rh
         if not file_path_real.suffix:
-            file_path_real = file_path_real.with_suffix(".rh")
+            file_path_real = file_path_real.with_suffix(DEFAULT_EXTENSION)
         with file_path_real.open(mode="w", encoding="utf-8") as fp:
             json.dump(obj, fp=fp, indent=4)
 
