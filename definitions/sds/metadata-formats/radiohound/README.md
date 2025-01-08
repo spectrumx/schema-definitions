@@ -58,7 +58,7 @@ Add the following user settings to `settings.json`:
         "fileMatch": [
             "*.rh"
         ],
-        "url": "https://raw.githubusercontent.com/sigmf/SigMF/refs/heads/main/sigmf-schema.json"
+        "url": "https://raw.githubusercontent.com/spectrumx/schema-definitions/refs/heads/master/definitions/sds/metadata-formats/radiohound/v0/schema.json"
     },
     // ...
 ]
