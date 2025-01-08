@@ -1,6 +1,6 @@
 # RadioHound Metadata Format under SDS
 
-The RadioHound metadata format was created at the Wireless Institute at the University of Notre Dame to address the storage of [periodograms](https://en.wikipedia.org/wiki/Periodogram) and related metadata. The format is based on SigMF and is used in the RadioHound software.
+The RadioHound metadata format is a JSON format created at the Wireless Institute at the University of Notre Dame to address the storage of [periodograms](https://en.wikipedia.org/wiki/Periodogram) and related metadata.
 
 ## Format description
 
@@ -36,6 +36,8 @@ The RadioHound metadata format was created at the Wireless Institute at the Univ
 ## Specification changelog
 
 ### `v0`
+
+[Generated schema](./v0/schema.json).
 
 1. Formalized data attributes, their types, and requiredness.
 2. Enforcing timezone information in the `timestamp` field writes. Missing timezones will be assumed to be UTC on read.
