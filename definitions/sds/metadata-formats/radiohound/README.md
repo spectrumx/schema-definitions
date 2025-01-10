@@ -38,18 +38,14 @@ For a machine-readable schema, see the [v0 schema](./v0/schema.json).
 
 ### Attributes in `metadata`
 
-| Attribute                  | Required? | Ideal Type (min bit or length representation) | Type in `.rh.json` for storage | Description                                                        |
-| -------------------------- | --------- | --------------------------------------------- | ------------------------------ | ------------------------------------------------------------------ |
-| `metadata.additional_info` | False     | dict (unbound)                                | object                         | Additional information about the capture sent by requestor\*       |
-| `metadata.data_type`       | True      | str (<=255 chars)                             | str                            | The category of this capture: Only `periodogram` is valid in `v0`. |
-| `metadata.fmax`            | True      | int (64b)                                     | number                         | The maximum frequency in the sample                                |
-| `metadata.fmin`            | True      | int (64b)                                     | number                         | The minimum frequency in the sample                                |
-| `metadata.gps_lock`        | True      | bool (1b)                                     | bool                           | Whether a GPS satellite lock is successfully obtained              |
-| `metadata.key`             | False     | str (<=255 chars)                             | str                            | The key of the data in the database                                |
-| `metadata.nfft`            | True      | int (64b)                                     | number                         | Number of FFT bins, recommended to be a power of 2                 |
-| `metadata.scan_time`       | True      | float (32b)                                   | number                         | The time taken to scan this sample, in seconds                     |
-
-\* The requestor could be e.g. a website, an experiment or a python script that's sending mqtt directly.
+| Attribute            | Required? | Ideal Type (min bit or length representation) | Type in `.rh.json` for storage | Description                                                        |
+| -------------------- | --------- | --------------------------------------------- | ------------------------------ | ------------------------------------------------------------------ |
+| `metadata.data_type` | True      | str (<=255 chars)                             | str                            | The category of this capture: Only `periodogram` is valid in `v0`. |
+| `metadata.fmax`      | True      | int (64b)                                     | number                         | The maximum frequency in the sample                                |
+| `metadata.fmin`      | True      | int (64b)                                     | number                         | The minimum frequency in the sample                                |
+| `metadata.gps_lock`  | True      | bool (1b)                                     | bool                           | Whether a GPS satellite lock is successfully obtained              |
+| `metadata.nfft`      | True      | int (64b)                                     | number                         | Number of FFT bins, recommended to be a power of 2                 |
+| `metadata.scan_time` | True      | float (32b)                                   | number                         | The time taken to scan this sample, in seconds                     |
 
 ### Deprecated attributes
 
