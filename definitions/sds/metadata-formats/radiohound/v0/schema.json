@@ -14,17 +14,17 @@
             "properties": {
                 "data_type": {
                     "$ref": "#/$defs/DataType",
-                    "desc": "The category of this capture"
+                    "description": "The category of this capture"
                 },
                 "fmax": {
-                    "desc": "The maximum frequency in the sample",
+                    "description": "The maximum frequency in the sample",
                     "exclusiveMaximum": 9223372036854775807,
                     "exclusiveMinimum": 0,
                     "title": "Fmax",
                     "type": "integer"
                 },
                 "fmin": {
-                    "desc": "The minimum frequency in the sample",
+                    "description": "The minimum frequency in the sample",
                     "exclusiveMaximum": 9223372036854775807,
                     "exclusiveMinimum": 0,
                     "title": "Fmin",
@@ -42,14 +42,14 @@
                     "type": "integer"
                 },
                 "scan_time": {
-                    "desc": "The time taken to scan this sample, in seconds",
+                    "description": "The time taken to scan this sample, in seconds",
                     "exclusiveMinimum": 0.0,
                     "title": "Scan Time",
                     "type": "number"
                 },
                 "xcount": {
                     "deprecated": true,
-                    "desc": "The number of points in the periodogram",
+                    "description": "The number of points in the periodogram",
                     "exclusiveMaximum": 9223372036854775807,
                     "exclusiveMinimum": 0,
                     "title": "Xcount",
@@ -57,7 +57,7 @@
                 },
                 "xstart": {
                     "deprecated": true,
-                    "desc": "The start frequency of the periodogram",
+                    "description": "The start frequency of the periodogram",
                     "exclusiveMaximum": 9223372036854775807,
                     "exclusiveMinimum": 0,
                     "title": "Xstart",
@@ -65,7 +65,7 @@
                 },
                 "xstop": {
                     "deprecated": true,
-                    "desc": "The stop frequency of the periodogram",
+                    "description": "The stop frequency of the periodogram",
                     "exclusiveMaximum": 9223372036854775807,
                     "exclusiveMinimum": 0,
                     "title": "Xstop",

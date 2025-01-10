@@ -113,15 +113,15 @@ class _RHMetadataV0(BaseModel):
     data_type: Annotated[
         DataType,
         AfterValidator(validate_data_type),
-        Field(desc="The category of this capture"),
+        Field(description="The category of this capture"),
     ]
     fmax: Annotated[
         int,
-        Field(desc="The maximum frequency in the sample", gt=0, lt=MAX_INT_SIZE),
+        Field(description="The maximum frequency in the sample", gt=0, lt=MAX_INT_SIZE),
     ]
     fmin: Annotated[
         int,
-        Field(desc="The minimum frequency in the sample", gt=0, lt=MAX_INT_SIZE),
+        Field(description="The minimum frequency in the sample", gt=0, lt=MAX_INT_SIZE),
     ]
     gps_lock: Annotated[
         bool,
@@ -135,7 +135,7 @@ class _RHMetadataV0(BaseModel):
     ]
     scan_time: Annotated[
         float,
-        Field(desc="The time taken to scan this sample, in seconds", gt=0),
+        Field(description="The time taken to scan this sample, in seconds", gt=0),
     ]
 
     # deprecated metadata attributes
@@ -143,7 +143,7 @@ class _RHMetadataV0(BaseModel):
     xcount: Annotated[
         int,
         Field(
-            desc="The number of points in the periodogram",
+            description="The number of points in the periodogram",
             gt=0,
             lt=MAX_INT_SIZE,
             deprecated=True,
@@ -153,7 +153,7 @@ class _RHMetadataV0(BaseModel):
     xstart: Annotated[
         int,
         Field(
-            desc="The start frequency of the periodogram",
+            description="The start frequency of the periodogram",
             gt=0,
             lt=MAX_INT_SIZE,
             deprecated=True,
@@ -163,7 +163,7 @@ class _RHMetadataV0(BaseModel):
     xstop: Annotated[
         int,
         Field(
-            desc="The stop frequency of the periodogram",
+            description="The stop frequency of the periodogram",
             gt=0,
             lt=MAX_INT_SIZE,
             deprecated=True,
