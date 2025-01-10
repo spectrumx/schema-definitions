@@ -409,7 +409,7 @@ class _RadioHoundDataV0(BaseModel):
         if not file_path_real.suffix:
             file_path_real = file_path_real.with_suffix(DEFAULT_EXTENSION)
         with file_path_real.open(mode="w", encoding="utf-8") as fp:
-            json.dump(obj, fp=fp, indent=4)
+            json.dump(obj, fp=fp, indent=4, sort_keys=True)
 
 
 def load_rh_file_v0(file_path: Path | str | bytes) -> _RadioHoundDataV0:
