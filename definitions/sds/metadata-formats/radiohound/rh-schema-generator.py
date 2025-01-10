@@ -39,7 +39,6 @@ from rich import print  # pylint: disable=redefined-builtin
 DEFAULT_EXTENSION = ".rh.json"
 FORMAT_VERSION = "v0"
 MAX_INT_SIZE = int(2**63 - 1)
-default_config = ConfigDict(arbitrary_types_allowed=True, extra="forbid")
 
 
 def log_warning(msg: str) -> None:
@@ -109,7 +108,7 @@ def validate_data_type(v: str) -> DataType:
 class _RHMetadataV0(BaseModel):
     """Metadata for a RadioHound capture."""
 
-    model_config = default_config
+    model_config = ConfigDict(arbitrary_types_allowed=True, extra="forbid")
 
     data_type: Annotated[
         DataType,
@@ -214,7 +213,14 @@ def nd_array_serializer(x) -> list:
 class _RadioHoundDataV0(BaseModel):
     """Describes a RadioHound capture."""
 
-    model_config = default_config
+    model_config = ConfigDict(
+        arbitrary_types_allowed=True,
+        extra="forbid",
+        json_schema_extra={
+            "$id": "https://json.schemastore.org/radiohound-v0.json",
+            "$schema": "http://json-schema.org/draft-07/schema#",
+        },
+    )
 
     # required attributes
     data: Annotated[
