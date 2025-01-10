@@ -4,7 +4,7 @@ The RadioHound metadata format is a JSON format created at the Wireless Institut
 
 ## Human-readable specification
 
-For a machine-readable schema, see the [latest schema](./latest/schema.json).
+For a machine-readable schema, see the [v0 schema](./v0/schema.json).
 
 ### Top-level attributes
 
@@ -29,7 +29,7 @@ For a machine-readable schema, see the [latest schema](./latest/schema.json).
 | Attribute           | Required? | Ideal Type (min bit or length representation) | Type in `.rh.json` for storage | Description                                                                                  |
 | ------------------- | --------- | --------------------------------------------- | ------------------------------ | -------------------------------------------------------------------------------------------- |
 | `altitude`          | False     | float (32b)                                   | number                         | The altitude where the data was captured, in meters                                          |
-| `batch`             | False     | str (<=255 chars)                             | str                            | Can be used to group scans together                                                          |
+| `batch`             | False     | int (64b)                                     | number                         | Can be used to group scans together                                                          |
 | `center_frequency`  | False     | float (32b)                                   | number                         | The center frequency of the capture, calculated as the mean of the start and end frequencies |
 | `custom_fields`     | False     | dict (unbound)                                | object                         | Custom fields that are not part of the standard schema                                       |
 | `hardware_board_id` | False     | str (<=255 chars)                             | str                            | The hardware board ID of the device capturing the data                                       |
