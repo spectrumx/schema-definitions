@@ -2,6 +2,18 @@
 
 The RadioHound metadata format is a JSON format created at the Wireless Institute at the University of Notre Dame to address the storage of [periodograms](https://en.wikipedia.org/wiki/Periodogram) and related metadata.
 
++ [RadioHound Metadata Format under SDS](#radiohound-metadata-format-under-sds)
+    + [Human-readable specification](#human-readable-specification)
+        + [Top-level attributes](#top-level-attributes)
+            + [Required top-level attributes](#required-top-level-attributes)
+            + [Optional top-level attributes](#optional-top-level-attributes)
+        + [Attributes in `metadata`](#attributes-in-metadata)
+        + [Deprecated attributes](#deprecated-attributes)
+        + [Moved attributes](#moved-attributes)
+    + [Specification changelog](#specification-changelog)
+        + [`v0`](#v0)
+    + [Adding VS Code support](#adding-vs-code-support)
+
 ## Human-readable specification
 
 For a machine-readable schema, see the [v0 schema](./v0/schema.json).
@@ -90,7 +102,7 @@ The following attributes may appear in files before this spec and are moved in `
 Add the following user settings to `settings.json`:
 
 ```jsonc
-"": {
+"files.associations": {
     // ...
     "*.rh": "json",
     // ...
