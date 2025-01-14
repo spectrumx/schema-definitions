@@ -48,30 +48,54 @@
                     "type": "number"
                 },
                 "xcount": {
+                    "anyOf": [
+                        {
+                            "exclusiveMaximum": 9223372036854775807,
+                            "exclusiveMinimum": 0,
+                            "type": "integer"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
                     "deprecated": true,
                     "description": "The number of points in the periodogram",
-                    "exclusiveMaximum": 9223372036854775807,
-                    "exclusiveMinimum": 0,
-                    "title": "Xcount",
-                    "type": "integer"
+                    "title": "Xcount"
                 },
                 "xstart": {
+                    "anyOf": [
+                        {
+                            "exclusiveMaximum": 9223372036854775807,
+                            "exclusiveMinimum": 0,
+                            "type": "integer"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
                     "deprecated": true,
                     "description": "The start frequency of the periodogram",
-                    "exclusiveMaximum": 9223372036854775807,
-                    "exclusiveMinimum": 0,
-                    "title": "Xstart",
-                    "type": "integer"
+                    "title": "Xstart"
                 },
                 "xstop": {
+                    "anyOf": [
+                        {
+                            "exclusiveMaximum": 9223372036854775807,
+                            "exclusiveMinimum": 0,
+                            "type": "integer"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
                     "deprecated": true,
                     "description": "The stop frequency of the periodogram",
-                    "exclusiveMaximum": 9223372036854775807,
-                    "exclusiveMinimum": 0,
-                    "title": "Xstop",
-                    "type": "integer"
+                    "title": "Xstop"
                 },
-                "archiveResult": {
+                "archive_result": {
                     "anyOf": [
                         {
                             "type": "boolean"
@@ -82,7 +106,7 @@
                     ],
                     "default": null,
                     "description": "Whether the data was archived",
-                    "title": "Archiveresult"
+                    "title": "Archive Result"
                 }
             },
             "required": [
@@ -91,10 +115,7 @@
                 "fmin",
                 "gps_lock",
                 "nfft",
-                "scan_time",
-                "xcount",
-                "xstart",
-                "xstop"
+                "scan_time"
             ],
             "title": "_RHMetadataV0",
             "type": "object"

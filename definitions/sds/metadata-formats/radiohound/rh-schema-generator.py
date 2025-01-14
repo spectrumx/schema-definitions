@@ -26,6 +26,7 @@ from typing import Annotated, Any
 import numpy as np
 from pydantic import (
     AfterValidator,
+    AliasChoices,
     BaseModel,
     BeforeValidator,
     ConfigDict,
@@ -141,33 +142,36 @@ class _RHMetadataV0(BaseModel):
     # deprecated metadata attributes
 
     xcount: Annotated[
-        int,
+        int | None,
         Field(
             description="The number of points in the periodogram",
             gt=0,
             lt=MAX_INT_SIZE,
             deprecated=True,
             exclude=True,
+            default=None,
         ),
     ]
     xstart: Annotated[
-        int,
+        int | None,
         Field(
             description="The start frequency of the periodogram",
             gt=0,
             lt=MAX_INT_SIZE,
             deprecated=True,
             exclude=True,
+            default=None,
         ),
     ]
     xstop: Annotated[
-        int,
+        int | None,
         Field(
             description="The stop frequency of the periodogram",
             gt=0,
             lt=MAX_INT_SIZE,
             deprecated=True,
             exclude=True,
+            default=None,
         ),
     ]
 
@@ -176,7 +180,7 @@ class _RHMetadataV0(BaseModel):
         bool | None,
         Field(
             description="Whether the data was archived",
-            alias="archiveResult",
+            validation_alias=AliasChoices("archive_result", "archiveResult"),
             default=None,
         ),
     ]
