@@ -99,6 +99,10 @@ The following attributes may appear in files before this spec and are moved in `
 
 ## Adding VS Code support
 
+Preview:
+
+![Screenshot of VS Code with loaded RadioHound schema and ErrorLens extension](./vscode-radiohound-schema.png)
+
 Add the following user settings to `settings.json`:
 
 ```jsonc
@@ -120,3 +124,5 @@ Add the following user settings to `settings.json`:
     // ...
 ]
 ```
+
+Then install and enable the ErrorLens extension to have warnings on the screen.
