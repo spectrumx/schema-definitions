@@ -17,7 +17,7 @@ Services should adhere to the following requirements:
 
 <a id="announcement"></a>
 ### Announcement format
-```
+```json
 {
   // required fields
   "title": "Human readable name",
@@ -53,14 +53,14 @@ Services should adhere to the following requirements:
 
 
 ### Icarus
-```
+```py
 { # Ring buffer control
   "task_name": "tasks.rf.digitalrf.ringbuffer_start",
   "arguments": { // to be determined }
 }
 ```
 or
-```
+```py
 { # Upload data to SDS
   "task_name": "tasks.archive.sds_upload",
   "arguments": { // to be determined }
@@ -72,7 +72,7 @@ or
 Processing algorithms will read incoming data from `/data/ringbuffer`, perform whatever is necessary and send their output to match the `announce` packet above: possibly to an MQTT topic, a file on disk, or a new ring buffer.  
 
 Code snippet:
-```
+```py
 import paho.mqtt.client as mqtt
 import time
 import json
@@ -107,7 +107,7 @@ client.loop_start()
 
 
 while True:
-  if !disabled:
+  if not disabled:
     #Do processing
 
     # Send data to SDS archive
