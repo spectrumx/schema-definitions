@@ -45,7 +45,7 @@ For a machine-readable schema, see the [v0 schema](./v0/schema.json).
 | `custom_fields`     | False     | dict (unbound)                                | object                         | Custom fields that are not part of the standard schema                                                   |
 | `hardware_board_id` | False     | str (<=255 chars)                             | str                            | The hardware board ID of the device capturing the data                                                   |
 | `hardware_version`  | False     | str (<=255 chars)                             | str                            | The hardware version of the device capturing the data                                                    |
-| `scan_group`        | False     | UUIDv4 (128b) OR str (36 chars)               | str                            | The UUID of the scan group, or a string representation of the UUID. Can be used to group scans together. |
+| `scan_group`        | False     | UUIDv4 (128b) OR str (32 or 36 chars)         | str                            | The UUID of the scan group, or a string representation of the UUID. Can be used to group scans together. |
 | `software_version`  | False     | str (<=255 chars)                             | str                            | The software version of the device capturing the data                                                    |
 
 ### Attributes in `metadata`
