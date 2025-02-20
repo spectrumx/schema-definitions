@@ -120,8 +120,8 @@ def send_status(client):
 client = mqtt.Client(service_name)
 client.on_message = on_message
 client.on_connect = on_connect
+client.will_set(service_name + "/status", payload=json.dumps({"state":"offline"}), qos=1, retain=True)
 client.connect("localhost", 1883)
-client.will_set(service_name + "/status", payload={"state":"offline"}, qos=1, retain=True)
 client.loop_start()
 
 
