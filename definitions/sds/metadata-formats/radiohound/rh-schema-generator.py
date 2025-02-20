@@ -19,13 +19,13 @@ import json
 import logging
 import re
 import sys
-import uuid
 from enum import Enum
 from pathlib import Path
 from typing import Annotated, Any
 
 import numpy as np
 from pydantic import (
+    UUID4,
     AfterValidator,
     AliasChoices,
     BaseModel,
@@ -72,18 +72,6 @@ def validate_timestamp(v: datetime.datetime) -> datetime.datetime:
         log_warning(msg)
         now_utc = datetime.datetime.now(datetime.timezone.utc)
         v = v.replace(tzinfo=now_utc.tzinfo)
-    return v
-
-
-def validate_optional_uuid(v: str | None) -> str | None:
-    if v is None:
-        return None
-    try:
-        uuid_obj = uuid.UUID(v, version=4)
-    except ValueError as err:
-        raise ValueError("Invalid UUID format") from err
-    if str(uuid_obj) != v:
-        raise ValueError("UUID must be in canonical form")
     return v
 
 
@@ -347,13 +335,10 @@ class _RadioHoundDataV0(BaseModel):
         ),
     ]
     scan_group: Annotated[
-        str | None,
-        AfterValidator(validate_optional_uuid),
+        UUID4 | None,
         Field(
-            description="The UUIDv4 of the scan group, used to group RH files. "
-            "36 char string (32 hex chars + 4 dashes)",
-            min_length=36,
-            max_length=36,
+            description="The scan group, used to group RH files. "
+            "UUID version 4 as a 32 or 36 (with dashes) char string.",
             default=None,
         ),
     ]

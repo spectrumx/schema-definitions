@@ -253,6 +253,7 @@
         "scan_group": {
             "anyOf": [
                 {
+                    "format": "uuid4",
                     "type": "string"
                 },
                 {
@@ -260,9 +261,7 @@
                 }
             ],
             "default": null,
-            "description": "The UUIDv4 of the scan group, used to group RH files. 36 char string (32 hex chars + 4 dashes)",
-            "maxLength": 36,
-            "minLength": 36,
+            "description": "The scan group, used to group RH files. UUID version 4 as a 32 or 36 (with dashes) char string.",
             "title": "Scan Group"
         },
         "software_version": {
