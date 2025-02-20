@@ -261,7 +261,7 @@
                 }
             ],
             "default": null,
-            "description": "The scan group, used to group RH files. UUID version 4 as a 32 or 36 (with dashes) char string.",
+            "description": "The scan group, used to group RH files. UUID version 4 as a 36 char string (with dashes).",
             "title": "Scan Group"
         },
         "software_version": {

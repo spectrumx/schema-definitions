@@ -352,7 +352,7 @@ class _RadioHoundDataV0(BaseModel):
         ),
         Field(
             description="The scan group, used to group RH files. "
-            "UUID version 4 as a 32 or 36 (with dashes) char string.",
+            "UUID version 4 as a 36 char string (with dashes).",
             default=None,
         ),
     ]

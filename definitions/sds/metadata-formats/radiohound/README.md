@@ -38,15 +38,15 @@ For a machine-readable schema, see the [v0 schema](./v0/schema.json).
 
 #### Optional top-level attributes
 
-| Attribute           | Required? | Ideal Type (min bit or length representation) | Type in `.rh.json` for storage | Description                                                                                              |
-| ------------------- | --------- | --------------------------------------------- | ------------------------------ | -------------------------------------------------------------------------------------------------------- |
-| `altitude`          | False     | float (32b)                                   | number                         | The altitude where the data was captured, in meters                                                      |
-| `center_frequency`  | False     | float (32b)                                   | number                         | The center frequency of the capture, calculated as the mean of the start and end frequencies             |
-| `custom_fields`     | False     | dict (unbound)                                | object                         | Custom fields that are not part of the standard schema                                                   |
-| `hardware_board_id` | False     | str (<=255 chars)                             | str                            | The hardware board ID of the device capturing the data                                                   |
-| `hardware_version`  | False     | str (<=255 chars)                             | str                            | The hardware version of the device capturing the data                                                    |
-| `scan_group`        | False     | UUIDv4 (128b) OR str (32 or 36 chars)         | str                            | The UUID of the scan group, or a string representation of the UUID. Can be used to group scans together. |
-| `software_version`  | False     | str (<=255 chars)                             | str                            | The software version of the device capturing the data                                                    |
+| Attribute           | Required? | Ideal Type (min bit or length representation) | Type in `.rh.json` for storage | Description                                                                                                        |
+| ------------------- | --------- | --------------------------------------------- | ------------------------------ | ------------------------------------------------------------------------------------------------------------------ |
+| `altitude`          | False     | float (32b)                                   | number                         | The altitude where the data was captured, in meters                                                                |
+| `center_frequency`  | False     | float (32b)                                   | number                         | The center frequency of the capture, calculated as the mean of the start and end frequencies                       |
+| `custom_fields`     | False     | dict (unbound)                                | object                         | Custom fields that are not part of the standard schema                                                             |
+| `hardware_board_id` | False     | str (<=255 chars)                             | str                            | The hardware board ID of the device capturing the data                                                             |
+| `hardware_version`  | False     | str (<=255 chars)                             | str                            | The hardware version of the device capturing the data                                                              |
+| `scan_group`        | False     | UUIDv4 (128b) OR str (36 chars)               | str                            | The UUID of the scan group, or a string representation of the UUID w/ dashes. Can be used to group scans together. |
+| `software_version`  | False     | str (<=255 chars)                             | str                            | The software version of the device capturing the data                                                              |
 
 ### Attributes in `metadata`
 
