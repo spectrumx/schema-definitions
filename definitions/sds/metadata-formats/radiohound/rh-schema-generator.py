@@ -33,6 +33,7 @@ from pydantic import (
     ConfigDict,
     Field,
     PlainSerializer,
+    WithJsonSchema,
     model_validator,
 )
 from pydantic.json_schema import SkipJsonSchema
@@ -41,6 +42,7 @@ from rich import print  # pylint: disable=redefined-builtin
 DEFAULT_EXTENSION = ".rh.json"
 FORMAT_VERSION = "v0"
 MAX_INT_SIZE = int(2**63 - 1)
+UUID4_REGEX = "^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
 
 
 def log_warning(msg: str) -> None:
@@ -336,6 +338,18 @@ class _RadioHoundDataV0(BaseModel):
     ]
     scan_group: Annotated[
         UUID4 | None,
+        WithJsonSchema(
+            json_schema={
+                "anyOf": [
+                    {
+                        "pattern": UUID4_REGEX,
+                        "type": "string",
+                    },
+                    {"type": "null"},
+                ]
+            },
+            mode="validation",
+        ),
         Field(
             description="The scan group, used to group RH files. "
             "UUID version 4 as a 32 or 36 (with dashes) char string.",
