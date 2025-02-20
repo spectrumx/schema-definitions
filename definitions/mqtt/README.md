@@ -8,38 +8,52 @@ Services should adhere to the following requirements:
     - MQTT broker: localhost
     - Port: 1883
 - Subscribe to `[service_name]/command` for incoming commands. 
-- Publish status updates (JSON) to `[service_name]/status`, with a `state` key matching either `online`/`offline` and an epoch timestamp with the last update.  Additional key/values as needed. 
-    - Example:
-    - {"state": "online" / "disabled" / "offline", "timestamp": 123456789, "additional": "info" }
-    - Use Last Will and Testament to mark the state `offline` when exiting.
-    - The `disabled` state is to show the algorithm is still online and able to receive commands, but is disabled.  
-- Send an announcement (JSON) to `announce/[service_name]` with human-readable information about this service.  See [Announcement format](/#announcement) below.
+- Publish status updates (JSON) to `[service_name]/status`, with `state` and `timestamp`.  Additional key/values as needed. 
+  - Use Last Will and Testament to mark the state `offline` when exiting.
+  ```jsonc
+  {
+    // required fields
+    "state": "online",        // "online" | "disabled" | "offline"
+                              // disabled shows services is still running
+    "timestamp": 123456789,   // epoch timestamp
 
-<a id="announcement"></a>
-### Announcement format
-```jsonc
-{
-  // required fields
-  "title": "Human readable name",
-  "description": "Human readable description of the algorithm",
-  "author": "Name <email>",
-  "source": "URL from where this came from (Docker, Github)",
-  "output":  
-      // Where output is being sent, either MQTT topic or location on disk.  
-      // Use `null` if no output is expected.  
-      // Multiple outputs can be specificed via JSON with name/location
-      // Examples:
-      // null                                       - no output
-      // "/data/new_ringbuffer"                     - location on disk
-      // "fft/output"                               - MQTT topic
-      // {"1024": "fft/1024", "8192": "fft/8192"}   - multiple MQTT outputs
+    // optional fields
+    "key": "value" 
+  }
+  ```
+- Send an announcement (JSON) to `announce/[service_name]` so Icarus and other services know what's available.
+  ```jsonc
+  {
+    // required fields
+    "title": "Human readable name",
+    "description": "Human readable description of the algorithm",
+    "author": "Name <email>",
+    "source": "URL from where this came from (Docker, Github)",
+    "output":                               // leave empty for no output
+      {
+        "output_name":                      // brief description 
+        {
+          "type": "mqtt",                   // "mqtt" or "disk"
+          "value": "fft/output_topic"
+        },
+        "fft_1024_bins":
+        {
+          "type": "mqtt",  
+          "value": "fft/1024"
+        },
+        "ringbuffer":
+        {
+          "type": "disk",  
+          "value": "/data/ringbuffer2"
+        }
+      },
 
-  // optional fields
-  "version": "0.1",
-  "type": ['algorithm','hardware','service'],       - choose one
-  "time_started": "epoch timestamp",
-}
-```
+    // optional fields
+    "version": "0.1",
+    "type": "algorithm",       // "algorithm" | "hardware" | "service"
+    "time_started": "epoch timestamp",
+  }
+  ```
 
 
 ## Current High-level Services & Hardware
@@ -52,18 +66,23 @@ Services should adhere to the following requirements:
 
 
 
-### Icarus
+### Icarus Commands (just a subset)
+
 ```py
 { # Ring buffer control
-  "task_name": "tasks.rf.digitalrf.ringbuffer_start",
+  "task_name": "tasks.rf.digitalrf.ringbuffer_start",       # ringbuffer_stop
   "arguments": { // to be determined }
 }
 ```
+
 or
 ```py
 { # Upload data to SDS
   "task_name": "tasks.archive.sds_upload",
-  "arguments": { // to be determined }
+  "arguments": { 
+    "source": "/path/to/data",
+    "destination": "sds_path"                
+  }
 }
 ```
 
