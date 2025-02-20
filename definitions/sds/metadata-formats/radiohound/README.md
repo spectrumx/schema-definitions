@@ -38,15 +38,15 @@ For a machine-readable schema, see the [v0 schema](./v0/schema.json).
 
 #### Optional top-level attributes
 
-| Attribute           | Required? | Ideal Type (min bit or length representation) | Type in `.rh.json` for storage | Description                                                                                  |
-| ------------------- | --------- | --------------------------------------------- | ------------------------------ | -------------------------------------------------------------------------------------------- |
-| `altitude`          | False     | float (32b)                                   | number                         | The altitude where the data was captured, in meters                                          |
-| `batch`             | False     | int (64b)                                     | number                         | Can be used to group scans together                                                          |
-| `center_frequency`  | False     | float (32b)                                   | number                         | The center frequency of the capture, calculated as the mean of the start and end frequencies |
-| `custom_fields`     | False     | dict (unbound)                                | object                         | Custom fields that are not part of the standard schema                                       |
-| `hardware_board_id` | False     | str (<=255 chars)                             | str                            | The hardware board ID of the device capturing the data                                       |
-| `hardware_version`  | False     | str (<=255 chars)                             | str                            | The hardware version of the device capturing the data                                        |
-| `software_version`  | False     | str (<=255 chars)                             | str                            | The software version of the device capturing the data                                        |
+| Attribute           | Required? | Ideal Type (min bit or length representation) | Type in `.rh.json` for storage | Description                                                                                              |
+| ------------------- | --------- | --------------------------------------------- | ------------------------------ | -------------------------------------------------------------------------------------------------------- |
+| `altitude`          | False     | float (32b)                                   | number                         | The altitude where the data was captured, in meters                                                      |
+| `center_frequency`  | False     | float (32b)                                   | number                         | The center frequency of the capture, calculated as the mean of the start and end frequencies             |
+| `custom_fields`     | False     | dict (unbound)                                | object                         | Custom fields that are not part of the standard schema                                                   |
+| `hardware_board_id` | False     | str (<=255 chars)                             | str                            | The hardware board ID of the device capturing the data                                                   |
+| `hardware_version`  | False     | str (<=255 chars)                             | str                            | The hardware version of the device capturing the data                                                    |
+| `scan_group`        | False     | UUIDv4 (128b) OR str (36 chars)               | str                            | The UUID of the scan group, or a string representation of the UUID. Can be used to group scans together. |
+| `software_version`  | False     | str (<=255 chars)                             | str                            | The software version of the device capturing the data                                                    |
 
 ### Attributes in `metadata`
 
@@ -65,6 +65,7 @@ The following attributes may appear in files before this spec and are deprecated
 
 | Deprecated in version | Attribute         | Ideal Type (min bit or length representation) | Type in `.rh.json` for storage |
 | --------------------- | ----------------- | --------------------------------------------- | ------------------------------ |
+| `v0`                  | `batch`           | int (64b)                                     | number                         |
 | `v0`                  | `metadata.xcount` | int (64b)                                     | number                         |
 | `v0`                  | `metadata.xstart` | int (64b)                                     | number                         |
 | `v0`                  | `metadata.xstop`  | int (64b)                                     | number                         |

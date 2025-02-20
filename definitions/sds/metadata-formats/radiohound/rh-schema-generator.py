@@ -19,6 +19,7 @@ import json
 import logging
 import re
 import sys
+import uuid
 from enum import Enum
 from pathlib import Path
 from typing import Annotated, Any
@@ -71,6 +72,18 @@ def validate_timestamp(v: datetime.datetime) -> datetime.datetime:
         log_warning(msg)
         now_utc = datetime.datetime.now(datetime.timezone.utc)
         v = v.replace(tzinfo=now_utc.tzinfo)
+    return v
+
+
+def validate_optional_uuid(v: str | None) -> str | None:
+    if v is None:
+        return None
+    try:
+        uuid_obj = uuid.UUID(v, version=4)
+    except ValueError as err:
+        raise ValueError("Invalid UUID format") from err
+    if str(uuid_obj) != v:
+        raise ValueError("UUID must be in canonical form")
     return v
 
 
@@ -144,7 +157,7 @@ class _RHMetadataV0(BaseModel):
     xcount: Annotated[
         int | None,
         Field(
-            description="The number of points in the periodogram",
+            description="[Deprecated] The number of points in the periodogram",
             gt=0,
             lt=MAX_INT_SIZE,
             deprecated=True,
@@ -155,7 +168,7 @@ class _RHMetadataV0(BaseModel):
     xstart: Annotated[
         int | None,
         Field(
-            description="The start frequency of the periodogram",
+            description="[Deprecated] The start frequency of the periodogram",
             gt=0,
             lt=MAX_INT_SIZE,
             deprecated=True,
@@ -166,7 +179,7 @@ class _RHMetadataV0(BaseModel):
     xstop: Annotated[
         int | None,
         Field(
-            description="The stop frequency of the periodogram",
+            description="[Deprecated] The stop frequency of the periodogram",
             gt=0,
             lt=MAX_INT_SIZE,
             deprecated=True,
@@ -303,13 +316,6 @@ class _RadioHoundDataV0(BaseModel):
             default=None,
         ),
     ]
-    batch: Annotated[
-        int | None,
-        Field(
-            description="Can be used to group scans together",
-            default=None,
-        ),
-    ]
     center_frequency: Annotated[
         float | None,
         Field(
@@ -340,6 +346,17 @@ class _RadioHoundDataV0(BaseModel):
             default=None,
         ),
     ]
+    scan_group: Annotated[
+        str | None,
+        AfterValidator(validate_optional_uuid),
+        Field(
+            description="The UUIDv4 of the scan group, used to group RH files. "
+            "36 char string (32 hex chars + 4 dashes)",
+            min_length=36,
+            max_length=36,
+            default=None,
+        ),
+    ]
     software_version: Annotated[
         str | None,
         Field(
@@ -350,24 +367,33 @@ class _RadioHoundDataV0(BaseModel):
     ]
 
     # deprecated attributes
+    batch: Annotated[
+        int | None,
+        Field(
+            description="[Deprecated | Use scan_group instead] Can be used to group scans together.",
+            default=None,
+            deprecated=True,
+            exclude=True,
+        ),
+    ]
     suggested_gain: Annotated[
         float | None,
         Field(
-            description="Suggested gain for the device",
-            gt=0,
+            description="[Deprecated] Suggested gain for the device",
+            default=None,
             deprecated=True,
             exclude=True,
-            default=None,
+            gt=0,
         ),
     ]
     uncertainty: Annotated[
         int | None,
         Field(
-            description="Uncertainty of the measurement",
-            gt=0,
+            description="[Deprecated] Uncertainty of the measurement",
+            default=None,
             deprecated=True,
             exclude=True,
-            default=None,
+            gt=0,
         ),
     ]
 
