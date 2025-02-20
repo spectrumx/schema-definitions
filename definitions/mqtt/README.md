@@ -17,7 +17,7 @@ Services should adhere to the following requirements:
 
 <a id="announcement"></a>
 ### Announcement format
-```json
+```jsonc
 {
   // required fields
   "title": "Human readable name",
