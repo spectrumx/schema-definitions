@@ -1,6 +1,5 @@
 {
     "altitude": 2.0,
-    "batch": 0,
     "center_frequency": 2000000000.0,
     "custom_fields": {
         "requested": {
@@ -28,6 +27,7 @@
         "scan_time": 0.07766938209533691
     },
     "sample_rate": 24000000,
+    "scan_group": "4ea07046-bee1-4442-b5ea-1ef97a297b5a",
     "short_name": "WI-Lab V3.4-025 #6",
     "software_version": "v0.10b30",
     "timestamp": "2025-01-10T15:48:07.100486Z",

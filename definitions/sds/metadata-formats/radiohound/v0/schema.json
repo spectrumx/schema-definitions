@@ -60,7 +60,7 @@
                     ],
                     "default": null,
                     "deprecated": true,
-                    "description": "The number of points in the periodogram",
+                    "description": "[Deprecated] The number of points in the periodogram",
                     "title": "Xcount"
                 },
                 "xstart": {
@@ -76,7 +76,7 @@
                     ],
                     "default": null,
                     "deprecated": true,
-                    "description": "The start frequency of the periodogram",
+                    "description": "[Deprecated] The start frequency of the periodogram",
                     "title": "Xstart"
                 },
                 "xstop": {
@@ -92,7 +92,7 @@
                     ],
                     "default": null,
                     "deprecated": true,
-                    "description": "The stop frequency of the periodogram",
+                    "description": "[Deprecated] The stop frequency of the periodogram",
                     "title": "Xstop"
                 },
                 "archive_result": {
@@ -204,19 +204,6 @@
             "description": "The altitude where the data was captured, in meters",
             "title": "Altitude"
         },
-        "batch": {
-            "anyOf": [
-                {
-                    "type": "integer"
-                },
-                {
-                    "type": "null"
-                }
-            ],
-            "default": null,
-            "description": "Can be used to group scans together",
-            "title": "Batch"
-        },
         "center_frequency": {
             "anyOf": [
                 {
@@ -263,6 +250,21 @@
             "description": "The hardware version of the device capturing the data",
             "title": "Hardware Version"
         },
+        "scan_group": {
+            "anyOf": [
+                {
+                    "type": "string"
+                },
+                {
+                    "type": "null"
+                }
+            ],
+            "default": null,
+            "description": "The UUIDv4 of the scan group, used to group RH files. 36 char string (32 hex chars + 4 dashes)",
+            "maxLength": 36,
+            "minLength": 36,
+            "title": "Scan Group"
+        },
         "software_version": {
             "anyOf": [
                 {
@@ -277,6 +279,20 @@
             "description": "The software version of the device capturing the data",
             "title": "Software Version"
         },
+        "batch": {
+            "anyOf": [
+                {
+                    "type": "integer"
+                },
+                {
+                    "type": "null"
+                }
+            ],
+            "default": null,
+            "deprecated": true,
+            "description": "[Deprecated | Use scan_group instead] Can be used to group scans together.",
+            "title": "Batch"
+        },
         "suggested_gain": {
             "anyOf": [
                 {
@@ -289,7 +305,7 @@
             ],
             "default": null,
             "deprecated": true,
-            "description": "Suggested gain for the device",
+            "description": "[Deprecated] Suggested gain for the device",
             "title": "Suggested Gain"
         },
         "uncertainty": {
@@ -304,7 +320,7 @@
             ],
             "default": null,
             "deprecated": true,
-            "description": "Uncertainty of the measurement",
+            "description": "[Deprecated] Uncertainty of the measurement",
             "title": "Uncertainty"
         },
         "requested": {
