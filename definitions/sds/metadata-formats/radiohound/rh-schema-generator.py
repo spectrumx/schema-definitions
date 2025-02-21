@@ -21,24 +21,25 @@ import re
 import sys
 from enum import Enum
 from pathlib import Path
-from typing import Annotated, Any
+from typing import Annotated
+from typing import Any
 
 import numpy as np
-from pydantic import (
-    UUID4,
-    AfterValidator,
-    AliasChoices,
-    BaseModel,
-    BeforeValidator,
-    ConfigDict,
-    Field,
-    PlainSerializer,
-    WithJsonSchema,
-    model_validator,
-)
+from numpy.typing import NDArray
+from pydantic import UUID4
+from pydantic import AfterValidator
+from pydantic import AliasChoices
+from pydantic import BaseModel
+from pydantic import BeforeValidator
+from pydantic import ConfigDict
+from pydantic import Field
+from pydantic import PlainSerializer
+from pydantic import WithJsonSchema
+from pydantic import model_validator
 from pydantic.json_schema import SkipJsonSchema
-from rich import print  # pylint: disable=redefined-builtin
+from rich.console import Console
 
+console = Console()
 DEFAULT_EXTENSION = ".rh.json"
 FORMAT_VERSION = "v0"
 MAX_INT_SIZE = int(2**63 - 1)
@@ -55,7 +56,7 @@ def serialize_data(v: bytes) -> str:
     return base64.b64encode(v).decode()
 
 
-def serialize_type(v: "NumpyDType") -> str:  # type: ignore
+def serialize_type(v: "NumpyDType") -> str:  # type: ignore[valid-type]
     return v.value
 
 
@@ -72,7 +73,7 @@ def validate_timestamp(v: datetime.datetime) -> datetime.datetime:
     if not v.tzinfo:
         msg = "Timestamp must have timezone information. Assuming UTC."
         log_warning(msg)
-        now_utc = datetime.datetime.now(datetime.timezone.utc)
+        now_utc = datetime.datetime.now(datetime.UTC)
         v = v.replace(tzinfo=now_utc.tzinfo)
     return v
 
@@ -81,18 +82,21 @@ def validate_version_after(v: str) -> str:
     # make sure that, if present, it's a valid version string
     pattern = r"^v[0-9]+$"
     if not re.match(pattern=pattern, string=v):
-        raise ValueError("Version must match pattern 'v[0-9]+'")
+        msg = "Version must match pattern 'v[0-9]+'"
+        raise ValueError(msg)
     return v
 
 
 def validate_data(v: str) -> bytes:
     """Make sure data is a valid base64 encoding."""
     if not v:
-        raise ValueError("Data must not be empty")
+        msg = "Data must not be empty"
+        raise ValueError(msg)
     try:
         buffer = base64.b64decode(v)
     except Exception as err:
-        raise ValueError("Data must be base64 encoded") from err
+        msg = "Data must be base64 encoded"
+        raise ValueError(msg) from err
     return buffer
 
 
@@ -106,7 +110,8 @@ def validate_data_type(v: str) -> DataType:
     try:
         return DataType(v)
     except ValueError as err:
-        raise ValueError("Invalid data type") from err
+        msg = "Invalid data type"
+        raise ValueError(msg) from err
 
 
 class _RHMetadataV0(BaseModel):
@@ -130,7 +135,8 @@ class _RHMetadataV0(BaseModel):
     gps_lock: Annotated[
         bool,
         Field(
-            description="Whether a GPS satellite lock is obtained, otherwise the last known coordinates",
+            description="Whether a GPS satellite lock is obtained, otherwise "
+            "the last known coordinates",
         ),
     ]
     nfft: Annotated[
@@ -191,29 +197,30 @@ class _RHMetadataV0(BaseModel):
 
 def all_dtypes() -> set[str]:
     """Return all numpy-compatible data types."""
-    return set(dtype.__name__ for dtype in np.sctypeDict.values())
+    return {dtype.__name__ for dtype in np.sctypeDict.values()}
 
 
 NumpyDType = Enum("NumpyDTypes", {dtype: dtype for dtype in all_dtypes()})
 
 
-def validate_type(v: str) -> "NumpyDType":  # type: ignore
+def validate_type(v: str) -> "NumpyDType":  # type: ignore[valid-type]
     if v not in NumpyDType.__members__:
-        raise ValueError(f"Invalid data type: {v}")
-    return NumpyDType[v]
+        msg = f"Invalid data type: {v}"
+        raise ValueError(msg)
+    return NumpyDType.__members__[v]
 
 
-def nd_array_before_validator(x: str | list) -> np.ndarray:
+def nd_array_before_validator(x: str | list[Any]) -> NDArray[Any]:  # type: ignore[return-value]
     # custom before validation logic
     if isinstance(x, str):
         x_list = ast.literal_eval(x)
-        x = np.array(x_list)
+        x = np.array(x_list)  # type: ignore[assignment]
     if isinstance(x, list):
-        x = np.array(x)
-    return x
+        x = np.array(x)  # type: ignore[assignment]
+    return x  # type: ignore[return-value]
 
 
-def nd_array_serializer(x) -> list:
+def nd_array_serializer(x) -> list[NumpyDType]:  # type: ignore[valid-type]
     return x.tolist()
 
 
@@ -231,7 +238,9 @@ class _RadioHoundDataV0(BaseModel):
 
     # required attributes
     data: Annotated[
-        bytes, AfterValidator(validate_data), PlainSerializer(serialize_data)
+        bytes,
+        AfterValidator(validate_data),
+        PlainSerializer(serialize_data),
     ]
     data_as_numpy: Annotated[
         SkipJsonSchema[None],
@@ -272,13 +281,15 @@ class _RadioHoundDataV0(BaseModel):
         Field(description="Sample rate of the capture, in Hz", gt=0, lt=MAX_INT_SIZE),
     ]
     short_name: Annotated[
-        str, Field(description="The short name of the device", max_length=255)
+        str,
+        Field(description="The short name of the device", max_length=255),
     ]
     timestamp: Annotated[
         datetime.datetime,
         AfterValidator(validate_timestamp),
         Field(
-            description="Timestamp of the capture start, as ISO 8601 with timezone information"
+            description="Timestamp of the capture start, as "
+            "ISO 8601 with timezone information",
         ),
     ]
 
@@ -309,7 +320,8 @@ class _RadioHoundDataV0(BaseModel):
     center_frequency: Annotated[
         float | None,
         Field(
-            description="The center frequency of the capture, calculated as the mean of the start and end frequencies",
+            description="The center frequency of the capture, calculated as the mean "
+            "of the start and end frequencies",
             default=None,
         ),
     ]
@@ -346,7 +358,7 @@ class _RadioHoundDataV0(BaseModel):
                         "type": "string",
                     },
                     {"type": "null"},
-                ]
+                ],
             },
             mode="validation",
         ),
@@ -369,7 +381,8 @@ class _RadioHoundDataV0(BaseModel):
     batch: Annotated[
         int | None,
         Field(
-            description="[Deprecated | Use scan_group instead] Can be used to group scans together.",
+            description="[Deprecated | Use scan_group instead] "
+            "Can be used to group scans together.",
             default=None,
             deprecated=True,
             exclude=True,
@@ -400,7 +413,7 @@ class _RadioHoundDataV0(BaseModel):
 
     @model_validator(mode="before")
     @classmethod
-    def move_requested_to_custom_fields(cls, values: dict) -> dict:
+    def move_requested_to_custom_fields(cls, values: dict[str, Any]) -> dict[str, Any]:
         """Introduced in v0."""
         requested = values.get("requested")
         if requested:
@@ -411,8 +424,9 @@ class _RadioHoundDataV0(BaseModel):
         return values
 
     requested: Annotated[
-        dict | None,
-        # we don't care to validate `requested` contents as it's been moved to custom_fields
+        dict[str, Any] | None,
+        # we don't care to validate `requested` contents
+        # as it's been moved to custom_fields
         Field(
             description="Attributes set by requestor",
             exclude=True,
@@ -424,22 +438,24 @@ class _RadioHoundDataV0(BaseModel):
         ),
     ]
 
-    def model_post_init(self, __context: Any) -> None:  # noqa: F821
+    def model_post_init(self, /, __context: Any) -> None:
         self.data_as_numpy = np.frombuffer(self.data, dtype=self.type.value)
-        # return super().model_post_init(__context)
 
     def to_file(self, file_path: Path | str | bytes) -> None:
         """Write the RadioHound data to a file."""
         obj = self.model_dump(mode="json")
         file_path_real: Path
-        if file_path is None:
-            raise ValueError("File path must not be None")
+        if file_path is None:  # pragma: no cover
+            msg = "File path must not be None"
+            raise ValueError(msg)
+
         if isinstance(file_path, bytes):
             file_path_real = Path(file_path.decode())
-        if isinstance(file_path, str):
+        elif isinstance(file_path, str):
             file_path_real = Path(file_path)
-        if isinstance(file_path, Path):
-            file_path_real = file_path
+        else:  # Path
+            file_path_real = file_path  # type: ignore[valid-type]
+
         # if file_path_real has no extension, use .rh.json
         if not file_path_real.suffix:
             file_path_real = file_path_real.with_suffix(DEFAULT_EXTENSION)
@@ -460,51 +476,56 @@ def load_rh_file_v0(file_path: Path | str | bytes) -> _RadioHoundDataV0:
     """
     file_path_real: Path
     if file_path is None:
-        raise ValueError("File path must not be None")
+        msg = "File path must not be None"
+        raise ValueError(msg)
     if isinstance(file_path, bytes):
         file_path_real = Path(file_path.decode())
-    if isinstance(file_path, str):
+    elif isinstance(file_path, str):
         file_path_real = Path(file_path)
-    if isinstance(file_path, Path):
-        file_path_real = file_path
+    else:  # must be Path since we've exhausted other types
+        file_path_real = file_path  # type: ignore[valid-type]
+
     if not file_path_real.exists():
-        raise FileNotFoundError(f"File not found: {file_path_real}")
-    with open(file_path_real, mode="rb") as fp:
+        msg = f"File not found: {file_path_real}"
+        raise FileNotFoundError(msg)
+    with file_path_real.open(mode="rb") as fp:
         return _RadioHoundDataV0.model_validate_json(json_data=fp.read())
 
 
-def _self_test(verbose: bool = False) -> None:
+def _self_test(*, verbose: bool = False) -> None:
     """Run self-tests."""
     sample_dir = Path(FORMAT_VERSION) / "samples"
     sample_file = (sample_dir / "obsolete-full").with_suffix(DEFAULT_EXTENSION)
     if verbose:
-        print("\n\nRUNNING SELF-TESTS")
+        console.print("\n\nRUNNING SELF-TESTS")
     if verbose:
-        print(f"\tLoading sample file: {sample_file}")
+        console.print(f"\tLoading sample file: {sample_file}")
     loaded_model = load_rh_file_v0(sample_file)
     if verbose:
-        print("\n\nDUMPED SAMPLE:")
-        print(loaded_model.model_dump_json(indent=4))
-        print("\n\nNUMPY DATA:")
-        print(
-            f"Shape: {loaded_model.data_as_numpy.shape}, dtype: {loaded_model.data_as_numpy.dtype}"
+        console.print("\n\nDUMPED SAMPLE:")
+        console.print(loaded_model.model_dump_json(indent=4))
+        console.print("\n\nNUMPY DATA:")
+        console.print(
+            f"Shape: {loaded_model.data_as_numpy.shape}, "
+            f"dtype: {loaded_model.data_as_numpy.dtype}",
         )
     # dump it to a file to create a reference format for this version
     reference_file = sample_file.parent / f"reference-{FORMAT_VERSION}"
-    print(f"Writing reference file: {reference_file}")
+    console.print(f"Writing reference file: {reference_file}")
     loaded_model.to_file(file_path=reference_file)
 
 
 def _dump_schema(
-    model: BaseModel,
+    model: type[BaseModel],
     file_path: Path,
+    *,
     verbose: bool = False,
 ) -> None:
     """Dump the JSON schema for a model."""
     json_schema = model.model_json_schema(mode="validation")
     if verbose:
-        print("\n\nSCHEMA:")
-        print(json_schema)
+        console.print("\n\nSCHEMA:")
+        console.print(json_schema)
     file_path.parent.mkdir(parents=True, exist_ok=True)
     with file_path.open(mode="w", encoding="utf-8") as fp:
         json.dump(json_schema, fp=fp, indent=4)
@@ -512,7 +533,7 @@ def _dump_schema(
 
 def main() -> None:
     """Entry point to generate the JSON schema."""
-    print(f"Python interpreter path: {sys.executable}")
+    console.print(f"Python interpreter path: {sys.executable}")
     _self_test(verbose=True)
     schema_path = Path(FORMAT_VERSION) / "schema.json"
     _dump_schema(model=_RadioHoundDataV0, file_path=schema_path, verbose=True)
