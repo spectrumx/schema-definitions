@@ -21,7 +21,7 @@ Services should adhere to the following requirements:
     "key": "value" 
   }
   ```
-- Send an announcement (JSON) to `announce/[service_name]` so Icarus and other services know what's available.
+- Send an announcement (JSON) to `announce/[service_name]` with the Retain flag, so Icarus and other services know what's available.
   ```jsonc
   {
     // required fields
