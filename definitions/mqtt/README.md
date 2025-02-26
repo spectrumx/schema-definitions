@@ -28,7 +28,8 @@ Services should adhere to the following requirements:
     "title": "Human readable name",
     "description": "Human readable description of the algorithm",
     "author": "Name <email>",
-    "source": "URL from where this came from (Docker, Github)",
+    "url": "URL to download container (Docker hub, etc)", 
+    "source": "URL for source code (Github, etc)",
     "output":                               // leave empty for no output
       {
         "output_name":                      // brief description 
