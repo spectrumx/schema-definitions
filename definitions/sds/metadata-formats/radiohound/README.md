@@ -41,7 +41,7 @@ For a machine-readable schema, see the [v0 schema](./v0/schema.json).
 | Attribute           | Required? | Ideal Type (min bit or length representation) | Type in `.rh.json` for storage | Description                                                                                                        |
 | ------------------- | --------- | --------------------------------------------- | ------------------------------ | ------------------------------------------------------------------------------------------------------------------ |
 | `altitude`          | False     | float (32b)                                   | number                         | The altitude where the data was captured, in meters                                                                |
-| `center_frequency`  | False     | float (32b)                                   | number                         | The center frequency of the capture, calculated as the mean of the start and end frequencies                       |
+| `center_frequency`  | False     | float (64b)                                   | number                         | The center frequency of the capture, calculated as the mean of the start and end frequencies                       |
 | `custom_fields`     | False     | dict (unbound)                                | object                         | Custom fields that are not part of the standard schema                                                             |
 | `hardware_board_id` | False     | str (<=255 chars)                             | str                            | The hardware board ID of the device capturing the data                                                             |
 | `hardware_version`  | False     | str (<=255 chars)                             | str                            | The hardware version of the device capturing the data                                                              |
@@ -53,8 +53,8 @@ For a machine-readable schema, see the [v0 schema](./v0/schema.json).
 | Attribute            | Required? | Ideal Type (min bit or length representation) | Type in `.rh.json` for storage | Description                                                        |
 | -------------------- | --------- | --------------------------------------------- | ------------------------------ | ------------------------------------------------------------------ |
 | `metadata.data_type` | True      | str (<=255 chars)                             | str                            | The category of this capture: Only `periodogram` is valid in `v0`. |
-| `metadata.fmax`      | True      | int (64b)                                     | number                         | The maximum frequency in the sample                                |
-| `metadata.fmin`      | True      | int (64b)                                     | number                         | The minimum frequency in the sample                                |
+| `metadata.fmax`      | True      | float (64b)                                   | number                         | The maximum frequency in the sample                                |
+| `metadata.fmin`      | True      | float (64b)                                   | number                         | The minimum frequency in the sample                                |
 | `metadata.gps_lock`  | True      | bool (1b)                                     | bool                           | Whether a GPS satellite lock is successfully obtained              |
 | `metadata.nfft`      | True      | int (64b)                                     | number                         | Number of FFT bins, recommended to be a power of 2                 |
 | `metadata.scan_time` | True      | float (32b)                                   | number                         | The time taken to scan this sample, in seconds                     |
@@ -78,8 +78,8 @@ The following attributes may appear in files before this spec and are moved in `
 
 | Moved in version | Previous Name            | New Name                          | Ideal Type (min bit or length representation) | Type in `.rh.json` for storage | Description                                              |
 | ---------------- | ------------------------ | --------------------------------- | --------------------------------------------- | ------------------------------ | -------------------------------------------------------- |
-| `v0`             | `requested.fmin`         | `custom_fields.requested.fmin`    | int (64b)                                     | number                         | The minimum frequency requested for the sample, in Hz    |
-| `v0`             | `requested.fmax`         | `custom_fields.requested.fmax`    | int (64b)                                     | number                         | The maximum frequency requested for the sample, in Hz    |
+| `v0`             | `requested.fmin`         | `custom_fields.requested.fmin`    | float (64b)                                   | number                         | The minimum frequency requested for the sample, in Hz    |
+| `v0`             | `requested.fmax`         | `custom_fields.requested.fmax`    | float (64b)                                   | number                         | The maximum frequency requested for the sample, in Hz    |
 | `v0`             | `requested.span`         | `custom_fields.requested.span`    | int (64b)                                     | number                         | The frequency span requested for the sample, in Hz       |
 | `v0`             | `requested.rbw`          | `custom_fields.requested.rbw`     | int (64b)                                     | number                         | The resolution bandwidth requested for the sample, in Hz |
 | `v0`             | `requested.samples`      | `custom_fields.requested.samples` | int (64b)                                     | number                         | The number of samples requested for the sample           |

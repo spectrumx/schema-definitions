@@ -18,17 +18,15 @@
                 },
                 "fmax": {
                     "description": "The maximum frequency in the sample",
-                    "exclusiveMaximum": 9223372036854775807,
-                    "exclusiveMinimum": 0,
+                    "exclusiveMinimum": 0.0,
                     "title": "Fmax",
-                    "type": "integer"
+                    "type": "number"
                 },
                 "fmin": {
                     "description": "The minimum frequency in the sample",
-                    "exclusiveMaximum": 9223372036854775807,
-                    "exclusiveMinimum": 0,
+                    "exclusiveMinimum": 0.0,
                     "title": "Fmin",
-                    "type": "integer"
+                    "type": "number"
                 },
                 "gps_lock": {
                     "description": "Whether a GPS satellite lock is obtained, otherwise the last known coordinates",
@@ -207,6 +205,7 @@
         "center_frequency": {
             "anyOf": [
                 {
+                    "exclusiveMinimum": 0.0,
                     "type": "number"
                 },
                 {

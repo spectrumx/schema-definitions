@@ -20,8 +20,8 @@
     "metadata": {
         "archive_result": true,
         "data_type": "periodogram",
-        "fmax": 2012000000,
-        "fmin": 1988000000,
+        "fmax": 2012000000.0,
+        "fmin": 1988000000.0,
         "gps_lock": false,
         "nfft": 1024,
         "scan_time": 0.07766938209533691

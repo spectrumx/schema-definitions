@@ -126,12 +126,12 @@ class _RHMetadataV0(BaseModel):
         Field(description="The category of this capture"),
     ]
     fmax: Annotated[
-        int,
-        Field(description="The maximum frequency in the sample", gt=0, lt=MAX_INT_SIZE),
+        float,
+        Field(description="The maximum frequency in the sample", gt=0),
     ]
     fmin: Annotated[
-        int,
-        Field(description="The minimum frequency in the sample", gt=0, lt=MAX_INT_SIZE),
+        float,
+        Field(description="The minimum frequency in the sample", gt=0),
     ]
     gps_lock: Annotated[
         bool,
@@ -324,6 +324,7 @@ class _RadioHoundDataV0(BaseModel):
             description="The center frequency of the capture, calculated as the mean "
             "of the start and end frequencies",
             default=None,
+            gt=0,
         ),
     ]
     custom_fields: Annotated[
