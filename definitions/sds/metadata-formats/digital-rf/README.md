@@ -67,20 +67,25 @@ The 4 additional metadata attributes returned when sample is not `None` are:
 
 Extended attributes that are not part of the first Digital-RF specification, but that SDS supports and indexes.
 
+This list is based on the [DRF properties indexed by SDS](https://github.com/spectrumx/sds-code/blob/stable/gateway/sds_gateway/api_methods/utils/metadata_schemas.py).
+
 > Note some of these are computed properties.
 
-| Attribute           | Python Type | Description                                                               | Required |
-| ------------------- | ----------- | ------------------------------------------------------------------------- | -------- |
-| `antenna_direction` | `float`     | The direction of the antenna, in degrees.                                 | Yes      |
-| `antenna`           | `str`       | The antenna used in the capture.                                          | Yes      |
-| `bandwidth`         | `int`       | The resolution bandwidth of the capture, in Hz.                           | Yes      |
-| `center_freq`       | `int`       | The center frequency of the capture, in Hz.                               | Yes      |
-| `end_bound`         | `int`       | Index of the last sample, given in the number of samples since the epoch  | Yes      |
-| `gain`              | `float`     | The gain of the capture, in dB.                                           | Yes      |
-| `indoor_outdoor`    | `str`       | Whether the capture was taken indoors or outdoors.                        | Yes      |
-| `span`              | `int`       | The span of the capture, in seconds.                                      | Yes      |
-| `start_bound`       | `int`       | Index of the first sample, given in the number of samples since the epoch | Yes      |
-| `custom_attrs`      | `dict`      | Custom attributes of the capture - fields that are not in the schema.     | No       |
+| Attribute            | Python Type     | Description                                                                              | Required |
+| -------------------- | --------------- | ---------------------------------------------------------------------------------------- | -------- |
+| `antenna_direction`  | `float`         | The direction of the antenna, in degrees.                                                | Yes      |
+| `antenna`            | `str`           | The antenna used in the capture.                                                         | Yes      |
+| `bandwidth`          | `int`           | The resolution bandwidth of the capture, in Hz.                                          | Yes      |
+| `center_frequencies` | `list[float]`\* | The center frequencies of each of the capture's subchannels, in Hz.                      | Yes      |
+| `end_bound`          | `int`           | Index of the last sample, given in the number of samples since the epoch                 | Yes      |
+| `gain`               | `float`         | The gain of the capture, in dB.                                                          | Yes      |
+| `indoor_outdoor`     | `str`           | Whether the capture was taken indoors or outdoors.                                       | Yes      |
+| `span`               | `int`           | The span of the capture, in seconds.                                                     | Yes      |
+| `start_bound`        | `int`           | Index of the first sample, given in the number of samples since the epoch                | Yes      |
+| `center_freq`        | `int`           | The center frequency of the capture, in Hz. Consider using `center_frequencies` instead. | No       |
+| `custom_attrs`       | `dict`          | Custom attributes of the capture - fields that are not in the schema.                    | No       |
+
+\* Type matches its `numpy.float64` counterpart from the Digital-RF library, and it's stored as an array of doubles in OpenSearch.
 
 ## Data and Metadata
 
